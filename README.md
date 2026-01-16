@@ -25,4 +25,5 @@ Note: On some systems (like Linux), the keyboard library requires root/sudo priv
 ### Prerequisites
 You need Python installed on your system. You also need to install the following dependencies:
 ```bash
+winget install -e --id Python.Python.3.12
 pip install -r requirements.txt

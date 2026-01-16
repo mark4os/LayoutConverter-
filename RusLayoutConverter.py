@@ -47,4 +47,5 @@ def convert_text():
 keyboard.add_hotkey('f2', convert_text)
 
 print("Program is running. Press F2 to convert text.")
+
 keyboard.wait()

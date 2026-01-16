@@ -7,6 +7,18 @@ A Python-based utility to quickly fix text typed in the wrong keyboard layout (e
 * **Russian Support**: Converts between Russian and English layouts.
 * **Hotkey Activation**: Uses `F2` to trigger the conversion instantly.
 * **Case Sensitivity**: Preserves uppercase and lowercase letters during conversion.
+## Technical Details
+The scripts use the following logic:
+
+Key Mapping: Hardcoded dictionaries map English characters to their Cyrillic counterparts (e.g., 'q' to 'й').
+
+Clipboard Management: Uses pyperclip to interact with the system buffer and handle text transfer.
+
+Automation: Uses the keyboard library to simulate Ctrl+C and Ctrl+V commands and listen for the F2 hotkey.
+
+Stability: Includes a short delay (time.sleep(0.05)) to ensure the clipboard updates correctly before processing.
+
+Note: On some systems (like Linux), the keyboard library requires root/sudo privileges to capture global hotkeys.
 
 ## 🚀 Getting Started
 

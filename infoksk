@@ -1,0 +1,125 @@
+from tkinter import *
+from math import *
+import winsound
+import random
+import os
+import time
+
+def save_record(new_record):
+    with open("record.txt", "w") as r:
+        r.write(str(new_record))
+
+def read_record():
+    try:
+        with open("record.txt", "r") as r:
+            return int(r.read())
+    except FileNotFoundError:
+        save_record(0)
+        return 0
+
+record = read_record()
+kol = 0
+b3_kolclick = 0
+
+root = Tk()
+root.title("Cookie Clicker")
+root.geometry("400x800")
+root.resizable(width=False, height=False)
+root.configure(bg="#1D2E3D")
+
+c = Canvas(root, width=400, height=800, bg="#1D2E3D", highlightthickness=0)
+c.pack()
+
+kol_label = Label(root, text=str(kol), font=("Arial", 40), fg="white", bg="#1D2E3D")
+kol_label.place(x=180, y=50)
+
+b1_img = PhotoImage(file="cookie.png")
+b3_img = PhotoImage(file="special.png")
+b4_img = PhotoImage(file="stats.png")
+bg_img = PhotoImage(file="400x800.png")
+golden_img = PhotoImage(file="golden.png")
+
+c.create_image(200, 400, image=bg_img)
+
+
+def click_b1():
+    m = Label(root, text="Гра активна!", font=("Arial", 26), fg="white", bg="#3580B4")
+    root.after(3000, m.destroy)
+    m.place(x=100, y=180)
+
+b3_kolclick = 0
+
+def click_b3():
+    global b3_kolclick, kol
+    if b3_kolclick < 6:
+        b3_kolclick += 1
+        plus = random.randint(5, 20)
+        kol += plus
+        kol_label.config(text=kol)
+
+    c.create_image(50+(b3_kolclick-1)*60, 650, image=golden_img)
+    if b3_kolclick == 6:
+        b3.config (state=DISABLED)
+
+def click_b4():
+    global b3_kolclick, kol, record
+    n = Label(root, text="Кільк-ть: "+str(kol)+"\nБонуси: "+str(b3_kolclick)+"\nРекорд: "+str(record),
+              font=("Arial", 26), fg="white", bg="#3580B4")
+    root.after(5000, n.destroy)
+    n.place(x=100, y=180)
+
+def click_b5():
+    try:
+        winsound.Beep(523, 300)
+        time.sleep(0.05)
+        winsound.Beep(587, 300)
+        time.sleep(0.05)
+        winsound.Beep(659, 300)
+        time.sleep(0.05)
+        winsound.Beep(698, 300)
+        time.sleep(0.05)
+        winsound.Beep(784, 300)
+        time.sleep(0.05)
+        winsound.Beep(880, 300)
+        time.sleep(0.05)
+        winsound.Beep(988, 300)
+        time.sleep(0.05)
+        winsound.Beep(1047, 300)
+        time.sleep(0.05)
+    except:
+        pass
+
+def my_click(event):
+    global kol, record
+    d = sqrt((event.x-200)**2+(event.y-400)**2)
+    if d <= 150:
+        kol += 1
+        kol_label.config(text=kol)
+        if kol > record:
+            record = kol
+            save_record(record)
+
+b1 = Button(root, image=b1_img, width=69, height=62, borderwidth=0,
+            highlightthickness=0, relief="flat", bg="#1D2E3D",
+            activebackground="#1D2E3D", command=click_b1)
+b1.place(x=17, y=678)
+
+b3 = Button(root, image=b3_img, width=80, height=62, borderwidth=0,
+            highlightthickness=0, relief="flat", bg="#1D2E3D",
+            activebackground="#1D2E3D", command=click_b3)
+b3.place(x=169, y=678)
+
+b4 = Button(root, image=b4_img, width=74, height=62, borderwidth=0,
+            highlightthickness=0, relief="flat", bg="#1D2E3D",
+            activebackground="#1D2E3D", command=click_b4)
+b4.place(x=249, y=678)
+
+b5 = Button(root, text="♪", font=("Arial", 30), width=2, height=1,
+            borderwidth=0, highlightthickness=0, relief="flat",
+            bg="#1D2E3D", fg="white", activebackground="#1D2E3D",
+            command=click_b5)
+b5.place(x=323, y=678)
+
+c.bind("<Button-1>", my_click)
+
+root.mainloop()
